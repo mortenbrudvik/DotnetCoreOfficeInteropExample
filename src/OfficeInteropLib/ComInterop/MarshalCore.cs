@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Security;
 
-namespace OfficeInteropLib.Common
+namespace OfficeInteropLib.ComInterop
 {
     /// <summary>
-    /// Pulled from Microsoft to support Marshal.GetActiveObject()
+    /// Pulled from old .net framework to support Marshal.GetActiveObject() on .net core.
     /// https://github.com/microsoft/referencesource/blob/5697c29004a34d80acdaf5742d7e699022c64ecd/mscorlib/system/runtime/interopservices/marshal.cs#L2404
     /// </summary>
     public static class MarshalCore

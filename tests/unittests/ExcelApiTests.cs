@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using FluentAssertions;
 using OfficeInteropLib;
 using OfficeInteropLib.Common;
 using Xunit;
 using Xunit.Abstractions;
+
+using static UnitTests.Testing;
 
 namespace UnitTests
 {
@@ -32,8 +35,8 @@ namespace UnitTests
         [Fact]
         public void GetWindows_ShouldNotBeEmpty_WhenThereIsExcelDocumentOpened()
         {
-            //var excelWorkbook = Application.Launch("test.xlsx").WaitWhileMainHandleIsMissing();
-            Thread.Sleep(400);
+            Application.Launch("test.xlsx").WaitWhileMainHandleIsMissing();
+            Retry.WhileFalse(ExcelApi.HasRunningInstances, 10, 500);
 
             using var sut = new ExcelApi();
 
@@ -41,8 +44,23 @@ namespace UnitTests
 
             windows.Should().NotBeEmpty();
 
-            windows.ToList().ForEach(x=> _logger.WriteLine($"{x.Handle} : {x.DocumentPath}"));
-            //excelWorkbook.Kill();
+            windows.ToList().ForEach(x=> _logger.WriteLine(x.ToString()));
+
+            KillProcesses("EXCEL");
+        }
+
+        [Fact]
+        public void GetWindows2_ShouldNotBeEmpty_WhenThereIsExcelDocumentOpened()
+        {
+            Application.Launch("test.xlsx");
+            Retry.WhileFalse(ExcelApi.HasRunningInstances, 10, 500);
+
+            var windows = ExcelApi.GetWindows2();
+
+            windows.Should().NotBeEmpty();
+
+            windows.ToList().ForEach(x=> _logger.WriteLine(x.ToString()));
+            KillProcesses("EXCEL");
         }
     }
 }

@@ -2,16 +2,17 @@
 
 namespace OfficeInteropLib
 {
-    public class WordWindow
+    public class WindowInfo
     {
-        public WordWindow(IntPtr handle, string documentPath)
+        public WindowInfo(IntPtr handle, string documentPath)
         {
             Handle = handle;
             DocumentPath = documentPath;
-
         }
 
         public IntPtr Handle { get; }
         public string DocumentPath { get; }
+
+        public override string ToString() => $"Handle: {Handle}, Path: {DocumentPath}";
     };
 }
